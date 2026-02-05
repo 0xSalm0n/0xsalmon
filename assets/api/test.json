@@ -1,0 +1,22 @@
+{
+  "url": "https://0xsalm0n.github.io/assets/api/test.yaml",
+  "urls": [
+    {
+      "name": "Primary PoC",
+      "url": "https://0xsalm0n.github.io/assets/api/test.yaml"
+    }
+  ],
+
+  "validatorUrl": null,
+
+  "deepLinking": true,
+  "persistAuthorization": true,
+  "displayOperationId": true,
+  "displayRequestDuration": true,
+  "defaultModelRendering": "model",
+  "docExpansion": "none",
+
+  "syntaxHighlight": {
+    "activated": true
+  }
+}

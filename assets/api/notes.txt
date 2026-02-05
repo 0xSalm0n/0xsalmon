@@ -1,0 +1,45 @@
+Notes for Swagger UI attacks:
+
+Open Redirect:
+https://0xsalm0n.github.io/assets/api/redirect.html
+
+rlogin.json -> rlogin.yaml -> Redirecting to evil
+https://0xsalm0n.github.io/assets/api/rlogin.json
+https://0xsalm0n.github.io/assets/api/rlogin.yaml
+
+
+Open Redirect to Steal Cookie:
+https://0xsalm0n.github.io/assets/api/cookiesteal.html
+https://0xsalm0n.github.io/assets/api/pocc.html
+
+
+Login page to get cookie:
+https://0xsalm0n.github.io/assets/api/index.html
+https://0xsalm0n.github.io/assets/api/xsscookie.yaml
+https://0xsalm0n.github.io/assets/api/login.yaml
+
+
+?configUrl=payloads:
+test.json -> test.yaml -> id payload
+https://0xsalm0n.github.io/assets/api/test.json
+https://0xsalm0n.github.io/assets/api/test.yaml
+
+test1.json -> test1.yaml -> length alert
+https://0xsalm0n.github.io/assets/api/test1.json
+https://0xsalm0n.github.io/assets/api/test1.yaml
+
+test2.json -> test2.yaml -> encoded length
+https://0xsalm0n.github.io/assets/api/test2.json
+https://0xsalm0n.github.io/assets/api/test2.yaml
+
+xss_credentials_form.json -> xss_credentials_form.yaml -> get document cookie
+https://0xsalm0n.github.io/assets/api/xss_credentials_form.json
+https://0xsalm0n.github.io/assets/api/xss_credentials_form.yaml
+
+xsscookie.json -> xsscookie.yaml -> get document cookie
+https://0xsalm0n.github.io/assets/api/xsscookie.json
+https://0xsalm0n.github.io/assets/api/xsscookie.yaml
+
+login.json -> login.yaml -> yaml login page
+https://0xsalm0n.github.io/assets/api/login.json
+https://0xsalm0n.github.io/assets/api/login.yaml
