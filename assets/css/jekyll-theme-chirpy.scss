@@ -1,0 +1,436 @@
+---
+---
+
+@import 'main';
+
+/* ============================================================
+   Custom theme override for 0xSalm0n — Chirpy Jekyll
+   File: assets/css/jekyll-theme-chirpy.scss
+   Chirpy automatically loads this file as the main stylesheet,
+   so @import "main" pulls in all default Chirpy styles first,
+   then our overrides apply on top.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;600;700;800&display=swap');
+
+/* ── DESIGN TOKENS ── */
+:root {
+  --red: #ff2d2d;
+  --dim-red: #cc1a1a;
+  --green: #00ff9d;
+  --bg: #0a0a0a;
+  --surface: #111111;
+  --surface2: #171717;
+  --border: #222222;
+  --text: #e8e8e8;
+  --muted: #666666;
+  --mono: 'Share Tech Mono', monospace;
+  --sans: 'Syne', sans-serif;
+}
+
+/* ── BASE ── */
+html,
+body {
+  background-color: var(--bg) !important;
+  color: var(--text) !important;
+  font-family: var(--sans) !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: rgba(255, 45, 45, 0.25);
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--red);
+}
+
+/* ── SIDEBAR ── */
+#sidebar {
+  background: var(--surface) !important;
+  border-right: 1px solid var(--border) !important;
+
+  .site-title a {
+    font-family: var(--sans) !important;
+    font-weight: 800 !important;
+    color: #fff !important;
+    letter-spacing: -0.02em !important;
+  }
+
+  .site-subtitle {
+    font-family: var(--mono) !important;
+    font-size: 0.9rem !important;
+    color: var(--green) !important;
+    letter-spacing: 0.08em !important;
+  }
+
+  img.rounded-circle {
+    border: 2px solid var(--red) !important;
+    box-shadow: 0 0 0 4px rgba(255, 45, 45, 0.1) !important;
+  }
+
+  .nav-link {
+    font-family: var(--mono) !important;
+    font-size: 0.9rem !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase !important;
+    color: var(--muted) !important;
+    transition: color 0.2s !important;
+
+    &:hover {
+      color: var(--text) !important;
+      background: transparent !important;
+    }
+
+    &.active {
+      color: var(--red) !important;
+      background: rgba(255, 45, 45, 0.06) !important;
+      border-left: 2px solid var(--red) !important;
+    }
+  }
+
+  .sidebar-bottom a {
+    color: var(--muted) !important;
+    transition: color 0.2s !important;
+    &:hover {
+      color: var(--red) !important;
+    }
+  }
+}
+
+/* ── TOPBAR ── */
+#topbar-wrapper {
+  background: var(--surface) !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+
+#breadcrumb {
+  font-family: var(--mono) !important;
+  font-size: 1rem !important;
+
+  a {
+    color: var(--muted) !important;
+    &:hover {
+      color: var(--red) !important;
+    }
+  }
+  .breadcrumb-item.active {
+    color: var(--text) !important;
+  }
+}
+
+#search-wrapper {
+  background: var(--surface2) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 4px !important;
+}
+
+#search-input {
+  background: transparent !important;
+  color: var(--text) !important;
+  font-family: var(--mono) !important;
+  font-size: 0.8rem !important;
+  &::placeholder {
+    color: var(--muted) !important;
+  }
+}
+
+/* ── MAIN CONTENT ── */
+#main-wrapper,
+#main,
+main {
+  background: var(--bg) !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--sans) !important;
+  color: #fff !important;
+  letter-spacing: -0.02em !important;
+}
+
+p,
+li,
+td,
+th {
+  font-family: var(--sans) !important;
+  color: #aaa !important;
+  line-height: 1.75 !important;
+}
+
+a {
+  color: var(--red) !important;
+  text-decoration: none !important;
+  transition: color 0.2s !important;
+}
+a:hover {
+  color: #ff6666 !important;
+}
+
+strong,
+b {
+  color: var(--text) !important;
+  font-weight: 700 !important;
+}
+
+/* Inline code */
+code:not([class*='language-']) {
+  font-family: var(--mono) !important;
+  font-size: 0.85em !important;
+  background: rgba(255, 45, 45, 0.08) !important;
+  border: 1px solid rgba(255, 45, 45, 0.15) !important;
+  color: #ff8080 !important;
+  padding: 0.1em 0.4em !important;
+  border-radius: 2px !important;
+}
+
+/* Code blocks */
+pre,
+.highlight {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 4px !important;
+  font-family: var(--mono) !important;
+}
+
+pre code {
+  background: transparent !important;
+  border: none !important;
+  color: #ccc !important;
+  font-size: 0.85rem !important;
+}
+
+blockquote {
+  border-left: 2px solid var(--red) !important;
+  background: rgba(255, 45, 45, 0.03) !important;
+  padding: 0.8rem 1.2rem !important;
+  border-radius: 0 4px 4px 0 !important;
+  p {
+    color: #777 !important;
+    font-family: var(--mono) !important;
+    font-size: 0.88rem !important;
+  }
+}
+
+hr {
+  border: none !important;
+  border-top: 1px solid var(--border) !important;
+  margin: 2.5rem 0 !important;
+}
+
+/* Tables */
+th {
+  font-family: var(--mono) !important;
+  font-size: 0.8rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+  color: var(--muted) !important;
+  border-bottom: 1px solid var(--border) !important;
+  background: var(--surface) !important;
+}
+td {
+  border-bottom: 1px solid var(--border) !important;
+  font-size: 0.88rem !important;
+}
+tr:hover td {
+  background: var(--surface2) !important;
+}
+
+/* ── HOME POST CARDS ── */
+.card {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 4px !important;
+  transition:
+    border-color 0.2s,
+    transform 0.2s !important;
+
+  &:hover {
+    border-color: var(--red) !important;
+    transform: translateY(-1px) !important;
+  }
+
+  .card-title a {
+    font-family: var(--sans) !important;
+    font-weight: 700 !important;
+    color: #fff !important;
+    &:hover {
+      color: var(--red) !important;
+    }
+  }
+
+  .card-text {
+    color: #666 !important;
+    font-size: 1rem !important;
+  }
+
+  .text-muted {
+    font-family: var(--mono) !important;
+    font-size: 0.7rem !important;
+    color: var(--muted) !important;
+  }
+}
+
+/* ── TAGS & CATEGORIES ── */
+.tag,
+.category-tag,
+#tags a,
+.tag-cloud a {
+  font-family: var(--mono) !important;
+  font-size: 0.9rem !important;
+  padding: 0.2rem 0.6rem !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--muted) !important;
+  border-radius: 2px !important;
+  transition: all 0.2s !important;
+
+  &:hover {
+    border-color: var(--red) !important;
+    color: var(--text) !important;
+    background: rgba(255, 45, 45, 0.06) !important;
+  }
+}
+
+/* ── ARCHIVES ── */
+#archives {
+  .year {
+    font-family: var(--mono) !important;
+    color: #333 !important;
+  }
+  a {
+    font-family: var(--sans) !important;
+    color: var(--text) !important;
+    &:hover {
+      color: var(--red) !important;
+    }
+  }
+  time,
+  .date {
+    font-family: var(--mono) !important;
+    font-size: 0.7rem !important;
+    color: var(--muted) !important;
+  }
+}
+
+/* ── RIGHT PANEL ── */
+#panel-wrapper {
+  h3,
+  .panel-heading {
+    font-family: var(--mono) !important;
+    font-size: 1rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.1em !important;
+    color: var(--red) !important;
+    border-bottom: 1px solid var(--border) !important;
+    padding-bottom: 0.5rem !important;
+  }
+  a {
+    font-size: 0.85rem !important;
+    color: #888 !important;
+    &:hover {
+      color: var(--red) !important;
+    }
+  }
+}
+
+/* ── TOC ── */
+#toc-wrapper {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 4px !important;
+  h3 {
+    font-family: var(--mono) !important;
+    font-size: 0.75rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.2em !important;
+    color: var(--red) !important;
+  }
+  a {
+    font-family: var(--mono) !important;
+    font-size: 0.85rem !important;
+    color: var(--muted) !important;
+    &:hover {
+      color: var(--red) !important;
+    }
+    &.active {
+      color: var(--red) !important;
+    }
+  }
+}
+
+/* ── PAGINATION ── */
+.pagination .page-link {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--muted) !important;
+  font-family: var(--mono) !important;
+  border-radius: 2px !important;
+  transition: all 0.2s !important;
+  &:hover {
+    border-color: var(--red) !important;
+    color: var(--text) !important;
+  }
+}
+.pagination .active .page-link {
+  background: var(--red) !important;
+  border-color: var(--red) !important;
+  color: #fff !important;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--surface) !important;
+  border-top: 1px solid var(--border) !important;
+  font-family: var(--mono) !important;
+  font-size: 0.75rem !important;
+  color: var(--muted) !important;
+  a {
+    color: var(--muted) !important;
+    &:hover {
+      color: var(--red) !important;
+    }
+  }
+}
+
+/* ── BACK TO TOP ── */
+#back-to-top {
+  background: var(--red) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 2px !important;
+  &:hover {
+    background: var(--dim-red) !important;
+  }
+}
+
+/* ── SUBTLE SCANLINE OVERLAY ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.015) 2px,
+    rgba(0, 0, 0, 0.015) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
