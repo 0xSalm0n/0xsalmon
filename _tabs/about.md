@@ -406,7 +406,7 @@ order: 4
 
 .timeline-period {
   font-family: var(--mono);
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: var(--muted);
   margin-left: auto;
 }
@@ -598,7 +598,7 @@ order: 4
     <div class="impact-label">Attack Surfaces</div>
   </div>
   <div class="impact-item">
-    <div class="impact-number">Dev<span>→</span>Sec</div>
+    <div class="impact-number">Dev <span>→</span> Sec</div>
     <div class="impact-label">Full-Stack Background</div>
   </div>
 </div>
