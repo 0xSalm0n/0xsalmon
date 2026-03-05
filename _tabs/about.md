@@ -759,11 +759,11 @@ order: 4
     </div>
     <div class="ctf-card">
       <div class="ctf-card-label">Hack The Box</div>
-        <img src="https://www.hackthebox.com/badge/image/1120355" 
-        style="border:none; display:block; max-width:100%;"
-        width="340"
-        height="100" alt="HTB Badge">
-        <a href="https://app.hackthebox.com/profile/1120355" style="display:block;">
+      <a href="https://app.hackthebox.com/profile/1120355" target="_blank" rel="noopener">
+        <img src="https://www.hackthebox.com/badge/image/1120355"
+          style="border:none; display:block; max-width:100%;"
+          width="340"
+          height="100" alt="HTB Badge">
       </a>
     </div>
   </div>
