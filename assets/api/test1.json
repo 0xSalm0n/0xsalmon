@@ -1,8 +1,8 @@
 {
-  "url": "https://0xsalm0n.github.io/assets/api/test1.yaml",
+  "url": "https://0xsalmon.vercel.app/assets/api/test1.yaml",
   "urls": [
     {
-      "url": "https://0xsalm0n.github.io/assets/api/test1.yaml",
+      "url": "https://0xsalmon.vercel.app/assets/api/test1.yaml",
       "name": "Foo"
     }
   ]

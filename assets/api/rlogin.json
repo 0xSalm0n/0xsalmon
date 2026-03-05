@@ -1,8 +1,8 @@
 {
-  "url": "https://0xsalm0n.github.io/assets/api/rlogin.yaml",
+  "url": "https://0xsalmon.vercel.app/assets/api/rlogin.yaml",
   "urls": [
     {
-      "url": "https://0xsalm0n.github.io/assets/api/rlogin.yaml",
+      "url": "https://0xsalmon.vercel.app/assets/api/rlogin.yaml",
       "name": "0xsalm0n"
     }
   ]
