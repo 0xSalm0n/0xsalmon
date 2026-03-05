@@ -753,7 +753,8 @@ order: 4
       <a href="https://tryhackme.com/p/0xSalmon" target="_blank" rel="noopener">
         <img src="https://tryhackme-badges.s3.amazonaws.com/0xSalmon.png"
           style="border:none; display:block; max-width:100%;"
-          alt="TryHackMe Badge">
+          width="325"
+          height="100" alt="TryHackMe Badge">
       </a>
     </div>
     <div class="ctf-card">
@@ -761,7 +762,7 @@ order: 4
       <a href="https://app.hackthebox.com/profile/1120355" target="_blank" rel="noopener">
         <img src="https://www.hackthebox.com/badge/image/1120355"
           style="border:none; display:block; max-width:100%;"
-          width="340"
+          width="345"
           height="100" alt="HTB Badge">
       </a>
     </div>
