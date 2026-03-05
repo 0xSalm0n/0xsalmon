@@ -752,7 +752,7 @@ order: 4
       <div class="ctf-card-label">TryHackMe</div>
       <iframe
         src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=1052718"
-        style="border:none; display:block; max-width:100%;"
+        style="border:none; display:block; max-width:100%; background:var(--surface);"
         width="340"
         height="100">
       </iframe>
