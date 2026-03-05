@@ -750,12 +750,11 @@ order: 4
   <div class="ctf-section">
     <div class="ctf-card">
       <div class="ctf-card-label">TryHackMe</div>
-      <iframe
-        src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=1052718"
-        style="border:none; display:block; max-width:100%; background:var(--surface);"
-        width="340"
-        height="100">
-      </iframe>
+      <a href="https://tryhackme.com/p/0xSalmon" target="_blank" rel="noopener">
+        <img src="https://tryhackme-badges.s3.amazonaws.com/0xSalmon.png"
+          style="border:none; display:block; max-width:100%;"
+          alt="TryHackMe Badge">
+      </a>
     </div>
     <div class="ctf-card">
       <div class="ctf-card-label">Hack The Box</div>
