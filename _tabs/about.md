@@ -543,13 +543,12 @@ order: 4
   font-weight: 800;
   transition: background 0.2s;
   margin-top: 1rem;
-  display: inline-flex;
 }
 
 .resume-cta:hover {
   text-decoration: none;
   color: #000000;
-  background: var(--black);
+  background: #000000;
 }
 
 /* ── RESPONSIVE ── */
