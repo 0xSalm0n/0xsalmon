@@ -718,7 +718,7 @@ order: 4
       <div class="timeline-meta">
         <span class="timeline-role">Cybersecurity Engineer</span>
         <span class="timeline-company">@ Talrop</span>
-        <span class="timeline-period">Jan 2025 – Present</span>
+        <span class="timeline-period">Jan 2025 – Apr 2026</span>
       </div>
       <ul class="timeline-bullets">
         <li>Conducting <strong>VAPT on web apps, networks, and APIs</strong> — identifying critical vulnerabilities before attackers do.</li>
@@ -800,7 +800,7 @@ order: 4
   <a class="resume-cta" href="/assets/resume/Salmon_Kumar.pdf" download>
     ↓ &nbsp;Download Resume PDF
   </a>
-  <p style="font-size:0.8rem; color:var(--muted); opacity:0.5; margin-top:0.6rem; font-family:var(--mono);">Last updated: December 2025</p>
+  <p style="font-size:0.8rem; color:var(--muted); opacity:0.5; margin-top:0.6rem; font-family:var(--mono);">Last updated: April 2026</p>
 </div>
 
 <!-- ── CONNECT ── -->
