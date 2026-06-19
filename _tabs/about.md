@@ -562,13 +562,124 @@ order: 4
   .skill-cat { min-width: unset; }
   .timeline-period { margin-left: 0; width: 100%; }
 }
+
+/* ── HACKER ENHANCEMENTS ── */
+
+@keyframes hero-glitch {
+  0%, 88%, 100% {
+    text-shadow: none;
+    transform: translate(0);
+  }
+  89% { text-shadow: -3px 0 #ff2d2d, 3px 0 #00ff9d; transform: translate(-2px, 0); }
+  90% { text-shadow: 3px 0 #ff2d2d, -3px 0 #00ff9d; transform: translate(2px, 0); }
+  91% { text-shadow: none; transform: translate(0); }
+  92% { text-shadow: -2px 0 #00ff9d, 2px 0 #ff2d2d; transform: translate(-1px, 0); }
+  93% { text-shadow: none; transform: translate(0); }
+}
+
+@keyframes blink-cursor {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.hero-name {
+  animation: hero-glitch 16s step-end infinite;
+}
+
+/* Terminal-prompt style eyebrow */
+.hero-eyebrow {
+  font-size: 0.82rem;
+  letter-spacing: 0.05em;
+  text-transform: none;
+  color: var(--text);
+  gap: 0;
+}
+
+.hero-eyebrow::before {
+  content: none;
+}
+
+.prompt-host {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.prompt-path {
+  color: var(--muted);
+}
+
+.prompt-sym {
+  color: var(--red);
+  margin-right: 0.4em;
+}
+
+.prompt-cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  background: var(--green);
+  vertical-align: text-bottom;
+  margin-left: 2px;
+  animation: blink-cursor 1.1s step-end infinite;
+}
+
+/* Section headings: [+] prefix */
+.section-heading::before {
+  content: '[+]';
+  font-size: 0.82rem;
+  color: var(--green);
+  opacity: 0.7;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+/* Status pill blinking cursor */
+.status-pill::after {
+  content: '_';
+  animation: blink-cursor 1.2s step-end infinite;
+  margin-left: 2px;
+  color: var(--green);
+}
+
+/* Impact bar neon glow on hover */
+.impact-item:hover .impact-number {
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
+}
+
+/* CTF card border glow */
+.ctf-card:hover {
+  border-color: rgba(255, 45, 45, 0.4);
+  box-shadow: 0 0 16px rgba(255, 45, 45, 0.08);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Connect link neon glow */
+.connect-link:hover {
+  box-shadow: 0 0 12px rgba(255, 45, 45, 0.1);
+}
+
+/* Resume CTA glow */
+.resume-cta:hover {
+  background: var(--red) !important;
+  color: #fff !important;
+  box-shadow: 0 0 20px rgba(255, 45, 45, 0.4) !important;
+}
+
+/* Timeline dot glow */
+.timeline-item::before {
+  box-shadow: 0 0 8px rgba(255, 45, 45, 0.5);
+}
 </style>
 
 <div class="about-wrapper">
 
 <!-- ── HERO ── -->
 <div class="hero">
-  <div class="hero-eyebrow">Security Researcher & AppSec Engineer</div>
+  <div class="hero-eyebrow">
+    <span class="prompt-host">root@0xsalmon</span><span class="prompt-path">:~$</span>
+    <span class="prompt-sym"> </span>./whoami.sh
+    <span class="prompt-cursor"></span>
+  </div>
   <h1 class="hero-name">Salmon<span>.</span><br>Kumar</h1>
   <div class="hero-title">
     <em>@0xSalm0n</em> &nbsp;·&nbsp; Security Engineer &nbsp;·&nbsp; Penetration Tester &nbsp;·&nbsp; AppSec
