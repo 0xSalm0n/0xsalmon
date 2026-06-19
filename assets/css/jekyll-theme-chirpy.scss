@@ -441,59 +441,97 @@ body::after {
 
 /* ── KEYFRAMES ── */
 @keyframes glitch {
-  0%, 90%, 100% {
+  0%,
+  90%,
+  100% {
     text-shadow: none;
     transform: translate(0) skew(0deg);
   }
-  91% { text-shadow: -2px 0 #ff2d2d, 2px 0 #00ff9d; transform: translate(-1px, 0) skew(-0.5deg); }
-  92% { text-shadow: 2px 0 #ff2d2d, -2px 0 #00ff9d; transform: translate(2px, 0) skew(0.5deg); }
-  93% { text-shadow: none; transform: translate(0); }
-  94% { text-shadow: -1px 0 #00ff9d, 1px 0 #ff2d2d; transform: translate(-2px, 0); }
-  95% { text-shadow: 1px 0 #00ff9d; transform: translate(1px, 0); }
-  96% { text-shadow: none; transform: translate(0); }
+  91% {
+    text-shadow:
+      -2px 0 #ff2d2d,
+      2px 0 #00ff9d;
+    transform: translate(-1px, 0) skew(-0.5deg);
+  }
+  92% {
+    text-shadow:
+      2px 0 #ff2d2d,
+      -2px 0 #00ff9d;
+    transform: translate(2px, 0) skew(0.5deg);
+  }
+  93% {
+    text-shadow: none;
+    transform: translate(0);
+  }
+  94% {
+    text-shadow:
+      -1px 0 #00ff9d,
+      1px 0 #ff2d2d;
+    transform: translate(-2px, 0);
+  }
+  95% {
+    text-shadow: 1px 0 #00ff9d;
+    transform: translate(1px, 0);
+  }
+  96% {
+    text-shadow: none;
+    transform: translate(0);
+  }
 }
 
 @keyframes blink-cursor {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
 }
 
 @keyframes flicker {
-  0%, 88%, 91%, 94%, 100% { opacity: 1; }
-  89% { opacity: 0.82; }
-  92% { opacity: 0.96; }
-  95% { opacity: 0.88; }
+  0%,
+  88%,
+  91%,
+  94%,
+  100% {
+    opacity: 1;
+  }
+  89% {
+    opacity: 0.82;
+  }
+  92% {
+    opacity: 0.96;
+  }
+  95% {
+    opacity: 0.88;
+  }
 }
 
 @keyframes scan-line {
-  from { top: -4px; }
-  to { top: 100vh; }
+  from {
+    top: -4px;
+  }
+  to {
+    top: 100vh;
+  }
 }
 
-/* ── MOVING CRT SCAN LINE ── */
-body::before {
-  content: '';
-  position: fixed;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 45, 45, 0.12) 25%,
-    rgba(0, 255, 157, 0.07) 75%,
-    transparent 100%
-  );
-  animation: scan-line 9s linear infinite;
-  pointer-events: none;
-  z-index: 10001;
-}
 
 /* ── AMBIENT BACKGROUND GLOW ── */
 body {
   background-image:
-    radial-gradient(ellipse 70% 35% at 0% 0%, rgba(255, 45, 45, 0.05) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 35% at 100% 100%, rgba(0, 255, 157, 0.03) 0%, transparent 60%) !important;
+    radial-gradient(
+      ellipse 70% 35% at 0% 0%,
+      rgba(255, 45, 45, 0.05) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 50% 35% at 100% 100%,
+      rgba(0, 255, 157, 0.03) 0%,
+      transparent 60%
+    ) !important;
   background-attachment: fixed !important;
   background-color: var(--bg) !important;
 }
@@ -563,12 +601,16 @@ body {
 
 /* ── TOPBAR BOTTOM ACCENT GLOW ── */
 #topbar-wrapper {
-  box-shadow: 0 1px 0 var(--border), 0 2px 20px rgba(255, 45, 45, 0.04) !important;
+  box-shadow:
+    0 1px 0 var(--border),
+    0 2px 20px rgba(255, 45, 45, 0.04) !important;
 }
 
 /* ── CARD NEON GLOW ON HOVER ── */
 .card:hover {
-  box-shadow: 0 0 20px rgba(255, 45, 45, 0.1), 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+  box-shadow:
+    0 0 20px rgba(255, 45, 45, 0.1),
+    0 8px 24px rgba(0, 0, 0, 0.4) !important;
 }
 
 /* ── INLINE CODE NEON TINT ── */
