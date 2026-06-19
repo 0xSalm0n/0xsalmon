@@ -566,15 +566,15 @@ order: 4
 /* ── HACKER ENHANCEMENTS ── */
 
 @keyframes hero-glitch {
-  0%, 88%, 100% {
+  0%, 60%, 100% {
     text-shadow: none;
     transform: translate(0);
   }
-  89% { text-shadow: -3px 0 #ff2d2d, 3px 0 #00ff9d; transform: translate(-2px, 0); }
-  90% { text-shadow: 3px 0 #ff2d2d, -3px 0 #00ff9d; transform: translate(2px, 0); }
-  91% { text-shadow: none; transform: translate(0); }
-  92% { text-shadow: -2px 0 #00ff9d, 2px 0 #ff2d2d; transform: translate(-1px, 0); }
-  93% { text-shadow: none; transform: translate(0); }
+  63% { text-shadow: -3px 0 #ff2d2d, 3px 0 #00ff9d; transform: translate(-2px, 0); }
+  66% { text-shadow: 3px 0 #ff2d2d, -3px 0 #00ff9d; transform: translate(2px, 0); }
+  69% { text-shadow: none; transform: translate(0); }
+  72% { text-shadow: -2px 0 #00ff9d, 2px 0 #ff2d2d; transform: translate(-1px, 0); }
+  75% { text-shadow: none; transform: translate(0); }
 }
 
 @keyframes blink-cursor {
@@ -583,7 +583,7 @@ order: 4
 }
 
 .hero-name {
-  animation: hero-glitch 16s step-end infinite;
+  animation: hero-glitch 8s step-end infinite;
 }
 
 /* Terminal-prompt style eyebrow */
