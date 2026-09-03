@@ -4,6 +4,9 @@ title: "From Client-Side JavaScript to GitHub Admin: A Supply Chain Exposure"
 date: 2026-02-05 17:00:00 +0530
 categories: [Bug Bounty, Web Security]
 tags: [supply-chain, github, secrets-exposure, recon, javascript]
+image:
+  path: /assets/img/admin-access.jpg
+  alt: OAuth Security Vulnerability
 author: Salmon Kumar
 ---
 
