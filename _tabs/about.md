@@ -781,21 +781,22 @@ order: 4
         <span class="tag tag-red">Burp Suite</span>
         <span class="tag tag-red">Metasploit</span>
         <span class="tag tag-red">Nmap</span>
-        <span class="tag tag-red">SQLMap</span>
         <span class="tag tag-red">Nessus</span>
         <span class="tag tag-red">Wireshark</span>
         <span class="tag tag-red">OWASP ZAP</span>
-        <span class="tag tag-red">Postman</span>
+        <span class="tag tag-red">Jadx</span>
+        <span class="tag tag-red">MobSF</span>
+        <span class="tag tag-red">Apktool</span>
       </div>
     </div>
     <div class="skill-row">
       <div class="skill-cat">Languages</div>
       <div class="skill-tags">
+        <span class="tag tag-green">C</span>
         <span class="tag tag-green">Python</span>
         <span class="tag tag-green">Bash</span>
         <span class="tag tag-green">JavaScript</span>
         <span class="tag tag-green">SQL</span>
-        <span class="tag tag-green">C</span>
       </div>
     </div>
     <div class="skill-row">
@@ -805,6 +806,7 @@ order: 4
         <span class="tag tag-neutral">Docker</span>
         <span class="tag tag-neutral">Git</span>
         <span class="tag tag-neutral">Android</span>
+        <span class="tag tag-neutral">Active Directory</span>
       </div>
     </div>
     <div class="skill-row">
@@ -889,7 +891,7 @@ order: 4
         <span class="timeline-period">2020 – 2024</span>
       </div>
       <ul class="timeline-bullets">
-        <li>SCAD College of Engineering and Technology, Tirunelveli — <strong>CGPA: 7.8/10</strong></li>
+        <li>SCAD College of Engineering and Technology, Tirunelveli</li>
       </ul>
     </div>
     <div class="timeline-item">
