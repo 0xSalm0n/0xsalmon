@@ -43,3 +43,6 @@ https://0xsalmon.vercel.app/assets/api/xsscookie.yaml
 login.json -> login.yaml -> yaml login page
 https://0xsalmon.vercel.app/assets/api/login.json
 https://0xsalmon.vercel.app/assets/api/login.yaml
+
+pdf works sometimes
+https://0xsalmon.vercel.app/assets/api/js_injected_xss.pdf
